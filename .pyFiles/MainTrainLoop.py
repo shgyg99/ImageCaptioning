@@ -1,16 +1,23 @@
 import torch
 from torch import nn
 from torch import optim
-import wandb
+from torchtext.data.utils import get_tokenizer
+from Functions import set_seed, ImageCaptioning, train_one_epoch, evaluate
+from Arguments import seed, embed_size, hidden_size, num_epoch
+from Arguments import num_layers, dropout_embd, dropout_rnn, device, lr
+from Preprocessing import train_loader, valid_loader
 
 
+vocab = torch.load('./.ptFiles/vocab.pt')
+tokenizer = get_tokenizer('basic_english')
 loss_fn = nn.CrossEntropyLoss(ignore_index=vocab['<pad>'])
-
 metric = None
 
 torch.cuda.empty_cache()
 set_seed(seed)
-model = ImageCaptioning(embed_size, hidden_size, len(vocab), num_layers, dropout_embd, dropout_rnn).to(device)
+model = ImageCaptioning(embed_size, hidden_size,
+                        len(vocab), num_layers, 
+                        dropout_embd, dropout_rnn).to(device)
 
 """🔰 Define optimizer and Set learning rate and weight decay."""
 

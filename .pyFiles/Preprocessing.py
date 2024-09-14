@@ -2,6 +2,11 @@ from torchtext.data.utils import get_tokenizer
 from torchtext.vocab import build_vocab_from_iterator
 from torchvision import transforms as TT
 import torch
+from Functions import FlickrDataset, CaptionTransform, collate_fn
+from torch.utils.data import DataLoader
+
+
+caption_transform = CaptionTransform()
 
 with open('/content/drive/MyDrive/all_data/Flicker8k_Dataset/text/Flickr_8k.trainImages.txt') as f:
   lines = f.readlines()

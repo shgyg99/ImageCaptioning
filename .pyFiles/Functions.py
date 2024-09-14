@@ -3,12 +3,18 @@ from torch.nn.utils.rnn import pad_sequence
 import numpy as np
 
 from torchvision.models import resnet50, ResNet50_Weights
+from torchtext.data.utils import get_tokenizer
 import torch
 from torch import nn
 from torch.utils.data import Dataset
 import tqdm
 from PIL import Image
 import numpy as np
+from Preprocessing import train_imgs, valid_imgs, test_imgs
+from Arguments import device
+
+vocab = torch.load('.ptFiles/vocab.pt')
+tokenizer = get_tokenizer('basic_english')
 class AverageMeter(object):
     """Computes and stores the average and current value"""
     def __init__(self):

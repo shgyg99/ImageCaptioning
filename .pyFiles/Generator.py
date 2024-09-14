@@ -1,10 +1,13 @@
 import matplotlib.pyplot as plt
 import torch
+import torch.nn as nn
+from Arguments import device
+from Functions import generate
 
-model = torch.load('/content/drive/MyDrive/all_data/model.pt', map_location=device)
+model = torch.load('.ptFiles/model.pt', map_location=device)
 model.eval()
-test_loader = torch.load('/content/drive/MyDrive/all_data/test.pt')
-vocab = torch.load('/content/drive/MyDrive/all_data/vocab.pt')
+test_loader = torch.load('.ptFiles/test.pt')
+vocab = torch.load('.ptFiles/vocab.pt')
 loss_fn = nn.CrossEntropyLoss(ignore_index=vocab['<pad>'])
 
 x, y = next(iter(test_loader))
