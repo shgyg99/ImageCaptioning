@@ -129,15 +129,28 @@ st.set_page_config(
 
 )
 
-st.title('Age Estimation Web App')
+st.title('Image Captioning Web Application')
 
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-color: #CBC5EA;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 st.markdown("""
-Welcome to our Age Estimation Web App! This application utilizes the powerful ResNet model, built on PyTorch,
- to accurately estimate the age of individuals from their photographs.
-             Upload an image and let our state-of-the-art deep learning model predict the age in just a few seconds. 
-            Experience the power of AI in age estimation!
-* **Python libraries:** pytorch, pandas, streamlit, numpy
-* **Data source:** [github-repository](https://github.com/shgyg99/Age-Estimation).
+Welcome to our Age Estimation Web App! 
+This web application generates captions from images using a deep learning model 
+implemented in PyTorch. 
+The model has been trained on the Flickr dataset to understand visual content and 
+provide descriptive captions. With a score of 2.8, this application showcases the
+ capabilities of modern computer vision and natural language processing techniques.
+
+* **Python libraries:** pytorch, torchvision, torchtext, pandas, streamlit, numpy
+* **Data source:** [github-repository](https://https://github.com/shgyg99/ImageCaptioning).
 """)
 
 st.write('---')
@@ -150,7 +163,6 @@ if up is not None:
     a = st.image(up)
     b = st.warning('just a sec')
     out = generate(up.read(), test_transform, model, vocab, 20, device)[5:-6]
-    st.balloons()
     time.sleep(1)
     b.write(out)
 
