@@ -17,6 +17,16 @@ This repository contains the implementation of an image captioning model using P
 
 ## Web App
 This repository includes a **Streamlit web app** that generates captions for images using a pre-trained model.
+### How to run with *Docker* :
+you have to go to streamlit folder with:
+```cmd
+cd streamlit
+```
+then build docker image with :
+```cmd
+docker build -t image-captioning .
+```
+
 
 Check out the live demo of the app on Hugging Face Spaces by clicking the image below:
 
