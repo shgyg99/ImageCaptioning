@@ -62,7 +62,6 @@ class FlickrDataset(Dataset):
     if self.image_transform:
       try:
         img = self.image_transform(img)
-        logger.info(f'Image transformed successfully for index {index}.')
       except Exception as e:
          logger.error(f'Error transforming image at index {index}: {e}')
          raise CustomException(f'Error transforming image at index {index}: {e}')
@@ -70,7 +69,6 @@ class FlickrDataset(Dataset):
     if self.target_transform:
       try:
         caption = self.target_transform(caption)
-        logger.info(f'Caption transformed successfully for index {index}.')
       except Exception as e:
          logger.error(f'Error transforming caption at index {index}: {e}')
          raise CustomException(f'Error transforming caption at index {index}: {e}')
