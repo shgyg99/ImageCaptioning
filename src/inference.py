@@ -2,6 +2,7 @@ import torch
 import os
 from torch import nn
 import matplotlib.pyplot as plt
+from torch.quantization import quantize_dynamic
 from config.model_config import model, special_tokens_dict, train, dataloaders
 from transformers import AutoTokenizer
 from functools import lru_cache
@@ -19,8 +20,9 @@ def caption_generation(image):
     tokenizer.add_special_tokens(special_tokens_dict)
     eos_token_id = tokenizer.eos_token_id
 
-    base_model = torch.load(os.path.join(train['model_path'], 'final_model.pt'), map_location=train['device'], weights_only=False)
-    base_model.eval()
+    quantized_model = torch.load('artifacts/checkpoints/quan.pt', map_location=train['device'], weights_only=False)
+    quantized_model.eval()
+    
 
     image = image.to(train['device'])
     indices = []
@@ -28,7 +30,7 @@ def caption_generation(image):
     for i in range(model['seq_len']):
         with torch.no_grad():
             src = torch.LongTensor([indices]).to(train['device']) if indices else None
-            predictions = base_model.generate(image, src)
+            predictions = quantized_model.generate(image, src)
             
             idx = predictions[:, -1, :].argmax(1)
             

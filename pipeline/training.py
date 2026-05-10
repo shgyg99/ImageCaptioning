@@ -1,3 +1,4 @@
+from torch.quantization import quantize_dynamic
 from transformers import AutoTokenizer
 from src.base_model import ImageCaptioning
 import torch
@@ -96,7 +97,12 @@ if __name__=="__main__":
 
 
         if loss_valid < best_loss_valid:
-            torch.save(img_model, os.path.join(train['model_path'], f'final_model.pt'))
+            quantized_model = quantize_dynamic(
+                                img_model,
+                                {torch.nn.Linear},
+                                dtype=torch.qint8
+                            )
+            torch.save(quantized_model, os.path.join(train['model_path'], f'final_model.pt'))
             best_loss_valid = loss_valid
             logger.info(f"Model saved at epoch {epoch} with validation loss: {loss_valid:.4}")
 

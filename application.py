@@ -8,9 +8,6 @@ from src.inference import caption_generation
 
 app = Flask(__name__, template_folder="templates")
 
-MODEL_PATH = "artifacts/checkpoints/loss_4.21.pt"
-
-model = torch.load(MODEL_PATH, weights_only=False)
 
 @app.route('/')
 def home():
