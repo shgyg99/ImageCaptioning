@@ -58,7 +58,8 @@ class Decoder(nn.Module):
     return outputs
 
   def generate(self, features, captions):
-    if len(captions)!=0:
+
+    if captions is not None:
       embeddings = self.dropout_embd(self.embedding(captions))
       inputs = torch.cat((features.unsqueeze(1), embeddings), dim=1)
     else:

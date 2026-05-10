@@ -1,0 +1,58 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+    --main-color: #ff6f61;
+    --secondary-color: #e2f3e3;
+    --primary-color: #facdcd;
+    --light-bg: #ffffff;
+    --dark-bg: #333333;
+}
+html,
+body {
+  font-family: "Handlee", cursive;
+  font-size: 16px;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  background-color: var(--light-bg);
+  color: var(--dark-bg);
+}
+
+button,
+form input::file-selector-button {
+    border: 2px dashed var(--main-color);
+    background-color: var(--light-bg);
+    color: var(--dark-bg);
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin: 10px;
+}
+
+body h2 {
+    text-align: center;
+    background-color: var(--primary-color);
+    margin: 20px auto;
+    padding: 10px 0px;
+}
+
+.container {
+    max-width: 1000px;
+    height: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--secondary-color);
+    border-radius: 20px;
+}
+
+.container .upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
