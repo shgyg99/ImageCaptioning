@@ -1,9 +1,5 @@
 import torch
-import os
-from torch import nn
-import matplotlib.pyplot as plt
-from torch.quantization import quantize_dynamic
-from config.model_config import model, special_tokens_dict, train, dataloaders
+from config.model_config import model, special_tokens_dict, train
 from transformers import AutoTokenizer
 from functools import lru_cache
 from PIL import Image
@@ -20,7 +16,7 @@ def caption_generation(image):
     tokenizer.add_special_tokens(special_tokens_dict)
     eos_token_id = tokenizer.eos_token_id
 
-    quantized_model = torch.load('artifacts/checkpoints/quan.pt', map_location=train['device'], weights_only=False)
+    quantized_model = torch.load('artifacts/checkpoints/final_model.pt', map_location=train['device'], weights_only=False)
     quantized_model.eval()
     
 

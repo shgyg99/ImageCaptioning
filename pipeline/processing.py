@@ -5,6 +5,7 @@ from src.custom_dataset import AutoTokenizer, CaptionTransform, FlickrDataset, t
 import torch
 from torch.utils.data import DataLoader
 from config.data_ingestion_config import *
+from config.model_config import train
 from src.logger import get_logger
 from src.custom_exception import CustomException
 
@@ -40,9 +41,9 @@ if __name__=="__main__":
         raise CustomException(e)
 
     try:
-        train_loader = DataLoader(train_dataset, 16, True, collate_fn=collate_fn ,num_workers=2, pin_memory=True)
-        valid_loader = DataLoader(valid_dataset, 32, False, collate_fn=collate_fn, num_workers=2)
-        test_loader = DataLoader(test_dataset, 32, False, collate_fn=collate_fn)
+        train_loader = DataLoader(train_dataset, train['batch_size']/2, True, collate_fn=collate_fn ,num_workers=2, pin_memory=True)
+        valid_loader = DataLoader(valid_dataset, train['batch_size'], False, collate_fn=collate_fn, num_workers=2)
+        test_loader = DataLoader(test_dataset, train['batch_size'], False, collate_fn=collate_fn)
         
         logger.info("DataLoaders created successfully.")
 

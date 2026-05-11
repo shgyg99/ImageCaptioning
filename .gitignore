@@ -4,3 +4,5 @@ old
 __pycache__
 venv
 artifacts/*
+mlruns
+mlflow.db

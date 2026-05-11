@@ -9,8 +9,8 @@ model = {
 }
 
 train = {
-    'batch_size':128,
-    'lr' : 1e-2,
+    'batch_size':32,
+    'lr' : 5e-3,
     'momentum':0.9,
     'num_epoch' : 4,
     'device': 'cpu',
