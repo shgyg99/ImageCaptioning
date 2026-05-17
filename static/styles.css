@@ -7,11 +7,11 @@
 }
 
 :root {
-    --main-color: #ff6f61;
-    --secondary-color: #e2f3e3;
-    --primary-color: #facdcd;
-    --light-bg: #ffffff;
-    --dark-bg: #333333;
+  --main-color: #ff6f61;
+  --secondary-color: #e2f3e3;
+  --primary-color: #facdcd;
+  --light-bg: #ffffff;
+  --dark-bg: #333333;
 }
 html,
 body {
@@ -25,34 +25,80 @@ body {
 
 button,
 form input::file-selector-button {
-    border: 2px dashed var(--main-color);
-    background-color: var(--light-bg);
-    color: var(--dark-bg);
-    border-radius: 20px;
-    padding: 5px 10px;
-    margin: 10px;
+  border: 2px dashed var(--main-color);
+  background-color: var(--light-bg);
+  color: var(--dark-bg);
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin: 10px;
+  cursor: pointer;
 }
 
 body h2 {
-    text-align: center;
-    background-color: var(--primary-color);
-    margin: 20px auto;
-    padding: 10px 0px;
+  text-align: center;
+  background-color: var(--primary-color);
+  margin: 20px auto;
+  padding: 10px 0px;
 }
 
 .container {
-    max-width: 1000px;
-    height: 500px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: var(--secondary-color);
-    border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1000px;
+  min-height: calc(100vh - 120px);
+  margin: 20px auto;
+  padding: 20px;
+  padding-top: 70px;
+  background-color: var(--secondary-color);
+  border-radius: 20px;
 }
 
 .container .upload-section {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
+.upload-section form {
+    display: flex;
+    flex-direction: column;
+}
+
+.image-preview {
+  margin-top: 40px;
+  max-width: 400px;
+}
+.image-preview img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-preview h4 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+.caption-box {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.upload-section {
+  margin-bottom: 20px;
+    max-width: 400px;
+
+}
+
+.result-section p {
+    margin-top: 20px;
+}
+
+.upload-section h3 {
+    margin-bottom: 20px;
+}
+button {
+  margin-top: 10px;
+}

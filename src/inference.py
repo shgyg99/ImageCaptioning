@@ -20,18 +20,21 @@ def caption_generation(image):
     vocab_size = tokenizer.vocab_size + len(special_tokens_dict)  # Adding 4 for the special tokens
     pad_token_id = tokenizer.pad_token_id 
     
-    img_model = ImageCaptioning(
-        embed_size=model['embed_size'],
-        hidden_size=model['hidden_size'],
-        vocab_size=vocab_size,
-        pad_token_id=pad_token_id,
-        num_layers=model['num_layers'],
-        dropout_embd=model['dropout_embd'],
-        dropout_rnn=model['dropout_rnn'],
-        max_seq_length=model['seq_len']
-    ).to(train['device'])
+    # img_model = ImageCaptioning(
+    #     embed_size=model['embed_size'],
+    #     hidden_size=model['hidden_size'],
+    #     vocab_size=vocab_size,
+    #     pad_token_id=pad_token_id,
+    #     num_layers=model['num_layers'],
+    #     dropout_embd=model['dropout_embd'],
+    #     dropout_rnn=model['dropout_rnn'],
+    #     max_seq_length=model['seq_len']
+    # ).to(train['device'])
 
-    img_model.load_state_dict(torch.load('artifacts/checkpoints/final_model.pt', map_location=train['device']))
+    # img_model.load_state_dict(torch.load('artifacts/checkpoints/final_model.pt', map_location=train['device']))
+    # img_model.eval()
+
+    img_model = torch.load('artifacts/checkpoints/final_model.pt', map_location=train['device'], weights_only=False)
     img_model.eval()
 
     
