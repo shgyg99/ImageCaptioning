@@ -67,4 +67,4 @@ def evaluate(model, test_loader, loss_fn, metric=None, device=train['device']):
       if metric:
         metric.update(outputs.reshape(-1, outputs.shape[-1]), targets.flatten())
 
-      return loss_eval.avg, metric.compute().item() if metric else None
+  return loss_eval.avg, metric.compute().item() if metric else None

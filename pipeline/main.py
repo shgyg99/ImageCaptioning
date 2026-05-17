@@ -206,4 +206,4 @@ if __name__=="__main__":
         plt.legend()
         plt.title('Training and Validation Loss')
         plt.savefig(os.path.join(train['model_path'], 'loss_plot.png'))
-        mlflow.log_image(os.path.join(train['model_path'], 'loss_plot.png'))
+        mlflow.log_artifact(os.path.join(train['model_path'], 'loss_plot.png'))

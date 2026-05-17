@@ -1,5 +1,5 @@
 import os
-
+import pandas as pd
 import torch
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms as TT
@@ -21,93 +21,82 @@ logger = get_logger('custom_dataset')
 class FlickrDataset(Dataset):
   def __init__(self, phase, image_transform=None, target_transform=None, img_root='artifacts/raw/Images', caption_path='artifacts/raw/captions.txt'):
     self.root = img_root
-    self.cap_path = caption_path
     self.image_transform = image_transform
     self.target_transform = target_transform
+    
+    df = pd.read_csv(caption_path)
 
-    try:
-      with open(self.cap_path) as f:
-        lines = f.readlines()
-        images = []
-        for line in lines:
-          name = line.split('#')[0].split('\n')[0]
-          if name not in images:
-            images.append(name)
+    df.columns = ['image_name', 'caption']
+    
+    unique_images = df['image_name'].unique()
+    total_images = len(unique_images)
+    
+    split_idx = int(total_images * 0.8)
+    
+    if phase == 'train':
+      selected_images = unique_images[:split_idx]
+    else:
+      selected_images = unique_images[split_idx:]
+    
+    self.df = df[df['image_name'].isin(selected_images)].reset_index(drop=True)
+    
+    self.df = self.df.dropna(subset=['caption'])
+    self.df = self.df[self.df['caption'].apply(lambda x: isinstance(x, str) and len(x.strip()) > 0)]
+    
+    self.df['caption'] = self.df['caption'].astype(str)
+    
+    print(f'Initialized {phase} dataset with {len(self.df)} samples.')
 
-      self.amounts = {'train': images[1:28310], 'valid': images[28310:36400], 'test': images[36400:]}
-      self.images = self.amounts[phase]
-
-      self.text, self.image = [], []
-      for case in self.images:
-        try:
-          img, cap = case.split(',')
-        except:
-          img, cap = case.split(',')[0], ','.join(case.split(',')[1:])
-
-        self.text.append(cap)
-        self.image.append(img)
       
-      logger.info(f'Initialized {phase} dataset with {len(self.text)} samples.')
-
-    except Exception as e:
-      logger.error(f'phase {phase} Error initializing dataset: {e}')
-      raise CustomException(f'Error initializing dataset: {e}')
-       
-
+  
   def __getitem__(self, index):
-    image_path = os.path.join(self.root, self.image[index])
+    row = self.df.iloc[index]
+    image_name = row['image_name']
+    caption = row['caption']
+    
+    image_path = os.path.join(self.root, image_name)
     img = Image.open(image_path).convert('RGB')
-    caption = self.text[index]
-
+    
     if self.image_transform:
-      try:
-        img = self.image_transform(img)
-      except Exception as e:
-         logger.error(f'Error transforming image at index {index}: {e}')
-         raise CustomException(f'Error transforming image at index {index}: {e}')
-
+      img = self.image_transform(img)
+    
     if self.target_transform:
-      try:
-        caption = self.target_transform(caption)
-      except Exception as e:
-         logger.error(f'Error transforming caption at index {index}: {e}')
-         raise CustomException(f'Error transforming caption at index {index}: {e}')
-
+      caption = self.target_transform(caption)
+    
     return img, caption
   
   def __len__(self):
-      return len(self.text)
-
+    return len(self.df)
 
 # -------------------------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------CAPTION TRANSFORMER-------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------------------------------------------
 class CaptionTransform:
-    def __init__(self, tokenizer, max_length=50):
-        self.tokenizer = tokenizer
-        self.max_length = max_length
-        
-    def __call__(self, caption):
-        encoding = self.tokenizer(
-            caption,
-            max_length=self.max_length,
-            padding='max_length',
-            truncation=True,
-            return_tensors='pt'
-        )
-        
-        return encoding['input_ids'].squeeze(0)
-    
-    def decode(self, indices):
-        return self.tokenizer.decode(indices, skip_special_tokens=True)
-    
-    def __repr__(self):
-        return f"""CaptionTransform([
-            tokenizer='{self.tokenizer.name_or_path}',
-            vocab_size={self.tokenizer.vocab_size},
-            max_length={self.max_length}
-        ])"""
-    
+  def __init__(self, tokenizer, max_length=50):
+    self.tokenizer = tokenizer
+    self.max_length = max_length
+      
+  def __call__(self, caption):
+      encoding = self.tokenizer(
+          caption,
+          max_length=self.max_length,
+          padding='max_length',
+          truncation=True,
+          return_tensors='pt'
+      )
+      
+      return encoding['input_ids'].squeeze(0)
+  
+  def decode(self, indices):
+      return self.tokenizer.decode(indices, skip_special_tokens=True)
+  
+  def __repr__(self):
+      return f"""CaptionTransform([
+          tokenizer='{self.tokenizer.name_or_path}',
+          vocab_size={self.tokenizer.vocab_size},
+          max_length={self.max_length}
+      ])"""
+  
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------
