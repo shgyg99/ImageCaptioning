@@ -3,6 +3,7 @@ logs
 old
 __pycache__
 venv
-artifacts/*
+artifacts/raw
 mlruns
 mlflow.db
+artifacts/checkpoints/final_model.pt

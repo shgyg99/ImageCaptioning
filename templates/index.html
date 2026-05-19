@@ -1,30 +1,120 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../static/styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../static/styles.css" />
     <title>IMAGE CAPTIONING</title>
-</head>
-<body>
+  </head>
+  <body>
     <h2>IMAGE CAPTIONING</h2>
     <div class="container">
-        <div class="upload-section">
-            <h3>Upload an Image or Use a Default one</h3>
-            <form action='/predict' method="post" id="upload-form" enctype="multipart/form-data">
-                <input type="file" id="image" name="image" accept="image/*" required>
-                <button type="submit">Generate Caption</button>
-            </form>
+      <div class="upload-section">
+        <h3>Upload an Image</h3>
+        <form
+          action="/predict"
+          method="post"
+          id="upload-form"
+          enctype="multipart/form-data"
+        >
+          <input
+            type="file"
+            id="image"
+            name="image"
+            accept="image/*"
+            required
+          />
+          <button type="submit">Generate Caption</button>
+        </form>
+
+        <div class="image-preview" id="previewContainer" style="display: none">
+          <h4>Selected Image:</h4>
+          <img id="imagePreview" src="#" alt="Image Preview" />
         </div>
-        <div class="result-section">
-            <h3>Generated Caption</h3>
-            {% if prediction_text %}
-            <p>{{ prediction_text }}</p>
-            {% else %}
-            <p>No predictions yet made...</p>
-            {% endif %}
+
+        {% if uploaded_image %}
+        <div class="image-preview">
+          <h4>Uploaded Image:</h4>
+          <img
+            src="data:image/jpeg;base64,{{ uploaded_image }}"
+            alt="Uploaded Image"
+          />
         </div>
-    
-</body>
+        {% endif %}
+      </div>
+
+      <div class="result-section">
+        {% if prediction_text %}
+        <div class="caption-box" >
+          <p>{{ prediction_text }}</p>
+        </div>
+        {% else %}
+        <p>No predictions yet made...</p>
+        {% endif %}
+      </div>
+    </div>
+    <script>
+      document
+        .getElementById("image")
+        .addEventListener("change", function (event) {
+          const file = event.target.files[0];
+          const previewContainer = document.getElementById("previewContainer");
+          const imagePreview = document.getElementById("imagePreview");
+
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              imagePreview.src = e.target.result;
+              previewContainer.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+      document
+        .getElementById("upload-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const formData = new FormData(this);
+          const resultDiv = document.querySelector(".result-section");
+          const submitBtn = this.querySelector("button");
+
+          submitBtn.disabled = true;
+          resultDiv.innerHTML =
+            "<p>Generating caption...</p>";
+
+          try {
+            const response = await fetch("/predict", {
+              method: "POST",
+              body: formData,
+            });
+
+            const data = await response.json();
+
+            if (data.caption) {
+              resultDiv.innerHTML = `
+                    <div>
+                        <p>${data.caption}</p>
+                    </div>
+                `;
+            } else if (data.error) {
+              resultDiv.innerHTML = `
+                    <p style="color: red;">Error: ${data.error}</p>
+                `;
+            }
+          } catch (error) {
+            resultDiv.innerHTML = `
+                <p style="color: red;">Error: ${error.message}</p>
+            `;
+          } finally {
+            submitBtn.disabled = false;
+          }
+        });
+    </script>
+  </body>
 </html>

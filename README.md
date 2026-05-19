@@ -60,6 +60,10 @@ python application.py
 ```
 (the app listens on 0.0.0.0:5000 by default in development).
 
+Here is Web app's screenshot👇
+
+![Demo Picture](App-screenshot.png)
+
 ## Pipeline
 
 The pipeline/main.py file is the project's orchestration entrypoint. It ties together:
