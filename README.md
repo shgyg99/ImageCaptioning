@@ -1,8 +1,10 @@
 ---
 title: Image Captioning
-sdk: static
-emoji: 🦀
-app_file: application.py
+emoji: 🖼️
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
 ---
 # Image Captioning
 
