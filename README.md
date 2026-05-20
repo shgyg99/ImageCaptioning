@@ -2,7 +2,7 @@
 title: Image Captioning
 sdk: static
 emoji: 🦀
-app_file: templates/index.html
+app_file: application.py
 ---
 # Image Captioning
 
