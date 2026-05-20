@@ -66,11 +66,7 @@ A lightweight HTML Flask application serves the user interface. The Flask app (a
 ```bash
 python application.py
 ```
-(the app listens on 0.0.0.0:5000 by default in development).
-
-Here is Web app's screenshot👇
-
-![Demo Picture](App-screenshot.png)
+(the app listens on 0.0.0.0:7860 by default in development).
 
 ## Pipeline
 
