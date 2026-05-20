@@ -1,3 +1,9 @@
+---
+title: Image Captioning
+sdk: static
+emoji: 🦀
+app_file: templates/index.html
+---
 # Image Captioning
 
 An end-to-end deep learning project that generates descriptive captions for images using encoder-decoder architecture with ResNet50 and transformer-based models.
