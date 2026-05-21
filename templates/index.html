@@ -30,7 +30,8 @@
           />
           <button type="submit">Generate Caption</button>
         </form>
-
+      </div>
+      <div class="results">
         <div class="image-preview" id="previewContainer" style="display: none">
           <h4>Selected Image:</h4>
           <img id="imagePreview" src="#" alt="Image Preview" />
@@ -45,17 +46,17 @@
           />
         </div>
         {% endif %}
+        <div class="result-section">
+          {% if prediction_text %}
+          <div class="caption-box">
+            <p>{{ prediction_text }}</p>
+          </div>
+          {% else %}
+          <p>No predictions yet made...</p>
+          {% endif %}
+        </div>
       </div>
 
-      <div class="result-section">
-        {% if prediction_text %}
-        <div class="caption-box" >
-          <p>{{ prediction_text }}</p>
-        </div>
-        {% else %}
-        <p>No predictions yet made...</p>
-        {% endif %}
-      </div>
     </div>
     <script>
       document
@@ -85,8 +86,7 @@
           const submitBtn = this.querySelector("button");
 
           submitBtn.disabled = true;
-          resultDiv.innerHTML =
-            "<p>Generating caption...</p>";
+          resultDiv.innerHTML = "<p>Generating caption...</p>";
 
           try {
             const response = await fetch("/predict", {

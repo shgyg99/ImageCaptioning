@@ -8,8 +8,8 @@
 
 :root {
   --main-color: #ff6f61;
-  --secondary-color: #e2f3e3;
-  --primary-color: #facdcd;
+  --secondary-color: #ebf6eb;
+  --primary-color: #fbcdcd;
   --light-bg: #ffffff;
   --dark-bg: #333333;
 }
@@ -43,9 +43,9 @@ body h2 {
 
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 1000px;
+  flex-direction: row;
+  gap: 50px;
+  max-width: 800px;
   min-height: calc(100vh - 120px);
   margin: 20px auto;
   padding: 20px;
@@ -54,11 +54,10 @@ body h2 {
   border-radius: 20px;
 }
 
-.container .upload-section {
+.upload-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .upload-section form {
@@ -67,11 +66,10 @@ body h2 {
 }
 
 .image-preview {
-  margin-top: 40px;
-  max-width: 400px;
+  max-width: 300px;
 }
 .image-preview img {
-  width: 100%;
+  width: 70%;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -79,22 +77,24 @@ body h2 {
 
 .image-preview h4 {
   margin-bottom: 20px;
-  text-align: center;
+  text-align: left;
 }
 .caption-box {
-  margin-top: 15px;
   margin-bottom: 15px;
 }
 
 .upload-section {
   margin-bottom: 20px;
-    max-width: 400px;
+    max-width: 200px;
+    margin: 0 60px;
 
 }
 
-.result-section p {
-    margin-top: 20px;
+.results {
+  display: flex;
+  flex-direction: column;
 }
+
 
 .upload-section h3 {
     margin-bottom: 20px;
