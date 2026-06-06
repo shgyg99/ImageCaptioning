@@ -3,10 +3,10 @@ logs
 old
 __pycache__
 venv
-
 artifacts
 mlruns
 mlflow.db
 artifacts/checkpoints/final_model.pt
 App-screenshot.png
 model_zip.py
+bfg-1.15.0.jar
