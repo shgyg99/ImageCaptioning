@@ -3,12 +3,11 @@ import kagglehub
 from src.logger import get_logger
 import shutil
 from src.custom_exception import CustomException
-from config.data_ingestion_config import *
 import zipfile
+from utils.config_manager import ConfigManager
 
 
 logger = get_logger(__name__)
-
 class DataIngestion:
 
     def __init__(self, dataset_name:str, target_dir:str):
@@ -69,5 +68,9 @@ class DataIngestion:
 
 
 if __name__=="__main__":
-     data_ingestion = DataIngestion(DATASET_NAME,TARGET_DIR)
-     data_ingestion.run()
+    config_manager = ConfigManager.from_yaml()
+    dataset_name = config_manager.get("data.dataset_name", "adityajn105/flickr8k")
+    target_dir = config_manager.get("data.target_dir", "artifacts")
+
+    data_ingestion = DataIngestion(dataset_name, target_dir)
+    data_ingestion.run()

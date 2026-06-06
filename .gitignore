@@ -3,8 +3,10 @@ logs
 old
 __pycache__
 venv
-artifacts/raw
+
+artifacts
 mlruns
 mlflow.db
 artifacts/checkpoints/final_model.pt
 App-screenshot.png
+model_zip.py

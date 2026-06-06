@@ -3,13 +3,13 @@ import torch
 import tqdm
 from utils.common_functions import AverageMeter
 
-from config.model_config import train, dataloaders
+from utils.config_manager import ConfigManager
 
 
 # -----------------------------------------------------------------------------------------------
 # ------------------------------------ TRAIN ----------------------------------------------------
 # -----------------------------------------------------------------------------------------------
-def train_one_epoch(model, train_loader, loss_fn, optimizer, metric=None, epoch=None, device=train['device']):
+def train_one_epoch(model, train_loader, loss_fn, optimizer, metric=None, epoch=None, device='cpu'):
   
   model.train()
   loss_train = AverageMeter()
@@ -48,7 +48,7 @@ def train_one_epoch(model, train_loader, loss_fn, optimizer, metric=None, epoch=
 # -----------------------------------------------------------------------------------------------
 # ------------------------------------ EVALUATION -----------------------------------------------
 # -----------------------------------------------------------------------------------------------
-def evaluate(model, test_loader, loss_fn, metric=None, device=train['device']):
+def evaluate(model, test_loader, loss_fn, metric=None, device="cpu"):
   model.eval()
   loss_eval = AverageMeter()
   if metric:
