@@ -24,8 +24,7 @@ img-captioning/
 ├── src/                          # Core source code
 │   ├── base_model.py             # Encoder and decoder model architectures
 │   ├── custom_dataset.py         # PyTorch Dataset class
-│   ├── data_ingestion.py         # Download and process raw data from Kaggle
-│   ├── inference.py              # Inference / caption generation utilities
+│   ├── data_ingestion.py         # Download and process raw data from utilities
 │   ├── train.py                  # Model training loop and utilities
 │   ├── custom_exception.py       # Custom exception handling
 │   ├── logger.py                 # Logging configuration
@@ -38,10 +37,12 @@ img-captioning/
 │
 ├── pipeline/                     # Data processing & orchestration
 │   ├── main.py                   # Full pipeline entrypoint: ingestion → preprocessing → dataloaders → training/evaluation
-│   └── processing.py             # Data preprocessing and augmentation functions
+|
+functions
 │
 ├── utils/                        # Utility functions
 │   ├── common_functions.py       # Helper functions
+|   ├── google_drive_downloader.py # Helper to download model
 │   └── __init__.py
 │
 ├── artifacts/                    # Generated outputs
@@ -54,7 +55,6 @@ img-captioning/
 │       └── test.pt               # Test data loader
 │
 ├── logs/                         # Application logs
-├── NoteBook.ipynb                # Jupyter notebook for experimentation
 ├── setup.py                      # Package setup configuration
 ├── requirements.txt              # Python dependencies
 └── README.md                     # This file

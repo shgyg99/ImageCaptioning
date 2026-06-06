@@ -5,6 +5,7 @@ from PIL import Image
 from src.custom_dataset import transform_test
 from src.base_model import ImageCaptioning, Encoder, Decoder
 from utils.config_manager import ConfigManager
+from utils.google_drive_downloader import GoogleDriveDownloader
 
 config_manager = ConfigManager.from_yaml()
 model_config = config_manager.get("model")
@@ -30,6 +31,21 @@ def load_model(model_path='artifacts/img_captioning.pt'):
         dropout_rnn=model_config.get('dropout_rnn'),
         max_seq_length=model_config.get('seq_len')
     ).to(device)
+
+
+
+    try:
+        model_file = GoogleDriveDownloader.get_model_path(model_path)
+
+        state_dict = torch.load(model_file, map_location=device, weights_only=False)
+        model.load_state_dict(state_dict)
+        model.eval()
+        print(f"✅ Model loaded successfully from {model_file}")
+
+    except Exception as e:
+        print(f"❌ Failed to load model: {e}")
+        print("⚠️ Running without model - predictions will not work")
+
     
     state_dict = torch.load(model_path, map_location=device, weights_only=False)
     model.load_state_dict(state_dict, strict=True)
